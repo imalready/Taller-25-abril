@@ -1,0 +1,47 @@
+Punto 4
+
+1. Comparación con f(1)
+
+x <- c(0.0, 0.2, 0.4)
+fx <- c(0.00000, 0.74140, 1.3718)
+finite.differences <- function(x, y) {
+  if (length(x) != length(y)) {
+    stop('x and y vectors must have equal length')
+  }
+  
+  n <- length(x)
+    fdx <- vector(length = n)
+  
+   for (i in 2:n) {
+    fdx[i-1] <- (y[i-1] - y[i]) / (x[i-1] - x[i])
+  }
+  
+  fdx[n] <- (y[n] - y[n - 1]) / (x[n] - x[n - 1])
+  
+  return(fdx)
+}
+finite <- finite.differences(x, fx)
+finite
+## [1] 3.707 3.152 3.152
+f <- function(x) {
+  return(x*exp(x))
+}
+central.difference <- function(f, x) {
+  steps <- c(0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001)
+  n <- length(steps)
+  
+  fdx <- vector(length = n)
+  
+  for (h in 1:n) {
+    fdx[h] <- (f(x + 0.5 * steps[h]) - f(x - 0.5 * steps[h])) / steps[h]
+  }
+  
+  return(fdx)
+}
+fdx <- function(x) {
+  return(exp(1))
+}
+ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + 
+  stat_function(fun = f, size = 1.25, alpha = 0.75) +
+  stat_function(fun = fdx, size = 1.25, color = 'blue', alpha = 0.75) +
+  xlim(-3,3)
